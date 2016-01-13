@@ -5,6 +5,13 @@
 #ifndef WX_PRECOMP
 #include <wx/wx.h>
 #endif
+
+#include <wx/spinctrl.h>
+
+#include <vector>
+
+#include "timeutils.h"
+
 class MyApp : public wxApp
 {
 public:
@@ -15,8 +22,13 @@ class MyFrame : public wxFrame
 public:
     MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
 private:
-    wxTextCtrl *m_timeInput;
+    wxSpinCtrl *m_timeInput;
     wxStaticText *m_timeOutput;
-    void OnTextEdit(wxCommandEvent& event);
+    wxChoice *m_cb_timeUnit;
+    std::vector<TimeUnit> m_units;
+    milliseconds getInputTime();
+    void updateTime();
+    void OnInputChange(wxSpinEvent& event);
+    void OnTimeUnitChange(wxCommandEvent& event);
     wxDECLARE_EVENT_TABLE();
 };

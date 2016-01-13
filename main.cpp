@@ -3,36 +3,85 @@
 
 enum
 {
-    ID_Hello = 1,
-    ID_TimeInput = 2,
-    ID_TimeOutput = 3
+    ID_TimeInput
+    , ID_TimeOutput
+    , ID_CB_TimeUnit
 };
 
 wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
-EVT_TEXT(ID_TimeInput, MyFrame::OnTextEdit)
+EVT_SPINCTRL(ID_TimeInput, MyFrame::OnInputChange)
+EVT_CHOICE(ID_CB_TimeUnit, MyFrame::OnTimeUnitChange)
 wxEND_EVENT_TABLE()
 wxIMPLEMENT_APP(MyApp);
 
 
 bool MyApp::OnInit()
 {
-    MyFrame *frame = new MyFrame("Hello World", wxPoint(50, 50), wxSize(450, 340));
+    MyFrame *frame = new MyFrame("Hello World", wxPoint(50, 50), wxSize(230, 100));
     frame->Show(true);
     return true;
 }
 
 MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     : wxFrame(NULL, wxID_ANY, title, pos, size)
+    , m_units({
+        TimeUnit::milliseconds
+        , TimeUnit::centiseconds
+        , TimeUnit::deciseconds
+        , TimeUnit::seconds})
 {
-    m_timeInput = new wxTextCtrl(this, ID_TimeInput, "TEST", wxDefaultPosition, wxSize(100, 20));
+
+    m_timeInput = new wxSpinCtrl(this, ID_TimeInput, "0", wxDefaultPosition, wxSize(100, 20));
+    m_timeInput->SetMax(INT_MAX);
     m_timeOutput = new wxStaticText(this, ID_TimeOutput, "0' 00'' 000", wxPoint(0, 30), wxSize(100, 20));
+
+    wxArrayString choices;
+    for (const auto &unit : m_units)
+    {
+        choices.push_back(TimeUnitToString(unit));
+    }
+    m_cb_timeUnit = new wxChoice(this, ID_CB_TimeUnit, wxPoint(110, 0), wxSize(100, 20), choices);
+    m_cb_timeUnit->SetSelection(0);
 }
 
 
-void MyFrame::OnTextEdit(wxCommandEvent& event)
+milliseconds MyFrame::getInputTime()
 {
-    const int value = atoi(event.GetString());
-    const auto ms = milliseconds(value);
+    const int value = m_timeInput->GetValue();
+    const int unitIndex = m_cb_timeUnit->GetSelection();
+    if (unitIndex == wxNOT_FOUND)
+    {
+        return milliseconds(0);
+    }
+
+    const TimeUnit unit = m_units[unitIndex];
+    switch (unit)
+    {
+    case TimeUnit::milliseconds:
+        return milliseconds(value);
+    case TimeUnit::centiseconds:
+        return centiseconds(value);
+    case TimeUnit::deciseconds:
+        return deciseconds(value);
+    case TimeUnit::seconds:
+        return seconds(value);
+    }
+    return milliseconds(0);
+}
+
+void MyFrame::updateTime()
+{
+    const auto ms = getInputTime();
     const std::string s = MinSecMs(ms).to_string();
     m_timeOutput->SetLabelText(s);
+}
+
+void MyFrame::OnInputChange(wxSpinEvent& event)
+{
+    updateTime();
+}
+
+void MyFrame::OnTimeUnitChange(wxCommandEvent& event)
+{
+    updateTime();
 }
