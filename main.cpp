@@ -17,7 +17,7 @@ wxIMPLEMENT_APP(MyApp);
 
 bool MyApp::OnInit()
 {
-    MyFrame *frame = new MyFrame("Hello World", wxPoint(50, 50), wxSize(230, 100));
+    MyFrame *frame = new MyFrame("Time Conv", wxPoint(50, 50), wxSize(230, 100));
     frame->Show(true);
     return true;
 }
@@ -30,10 +30,11 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
         , TimeUnit::deciseconds
         , TimeUnit::seconds})
 {
-
+    this->SetBackgroundColour(wxNullColour);
     m_timeInput = new wxSpinCtrl(this, ID_TimeInput, "0", wxDefaultPosition, wxSize(100, 20));
     m_timeInput->SetMax(INT_MAX);
-    m_timeOutput = new wxStaticText(this, ID_TimeOutput, "0' 00'' 000", wxPoint(0, 30), wxSize(100, 20));
+    m_timeOutput = new wxTextCtrl(this, ID_TimeOutput, "0' 00'' 000", wxPoint(0, 30), wxSize(100, 20));
+    m_timeOutput->SetEditable(false);
 
     wxArrayString choices;
     for (const auto &unit : m_units)
@@ -73,7 +74,7 @@ void MyFrame::updateTime()
 {
     const auto ms = getInputTime();
     const std::string s = MinSecMs(ms).to_string();
-    m_timeOutput->SetLabelText(s);
+    m_timeOutput->SetValue(s);
 }
 
 void MyFrame::OnInputChange(wxSpinEvent& event)
