@@ -34,7 +34,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
 {
     this->SetBackgroundColour(wxNullColour);
     m_timeInput = new wxSpinCtrl(this, ID_TimeInput, "0", wxDefaultPosition, wxSize(100, 20));
-    m_timeInput->SetMax(INT_MAX);
+    m_timeInput->SetRange(0, INT_MAX);
     m_timeInput->Bind(wxEVT_SPINCTRL, &MyFrame::OnInputParamsChange, this);
     m_timeInput->Bind(wxEVT_TEXT, &MyFrame::OnInputParamsChange, this);
 
