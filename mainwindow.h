@@ -28,7 +28,7 @@ private:
     wxSpinCtrl *m_timeInput;
     wxTextCtrl *m_timeOutput;
     wxChoice *m_cb_timeUnit;
-    wxToggleButton *m_pin;
+    wxBitmapToggleButton *m_pin;
     std::vector<TimeUnit> m_units;
     milliseconds getInputTime();
     void updateTime();
