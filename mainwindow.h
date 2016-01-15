@@ -8,6 +8,7 @@
 
 #include <wx/spinctrl.h>
 #include <wx/textctrl.h>
+#include <wx/tglbtn.h>
 
 #include <vector>
 
@@ -27,8 +28,10 @@ private:
     wxSpinCtrl *m_timeInput;
     wxTextCtrl *m_timeOutput;
     wxChoice *m_cb_timeUnit;
+    wxToggleButton *m_pin;
     std::vector<TimeUnit> m_units;
     milliseconds getInputTime();
     void updateTime();
     void OnInputParamsChange(wxCommandEvent& event);
+    void OnToggleOnTop(wxCommandEvent& event);
 };

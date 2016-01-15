@@ -13,10 +13,19 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\res">
+      <UniqueIdentifier>{713a32ce-e637-4c93-9f65-ac78d0fa05e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\res">
+      <UniqueIdentifier>{2badccf4-31e9-4c5e-ae6a-d64a1dde4486}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="res\res.cpp">
+      <Filter>Source Files\res</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -25,6 +34,9 @@
     </ClInclude>
     <ClInclude Include="mainwindow.h">
       <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="res\res.h">
+      <Filter>Header Files\res</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
