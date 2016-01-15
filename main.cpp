@@ -30,8 +30,8 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     this->SetBackgroundColour(wxNullColour);
     m_timeInput = new wxSpinCtrl(this, ID_TimeInput, "0", wxDefaultPosition, wxSize(100, 20));
     m_timeInput->SetMax(INT_MAX);
-    m_timeInput->Bind(wxEVT_SPINCTRL, [=](wxCommandEvent&) { updateTime();} );
-    m_timeInput->Bind(wxEVT_TEXT, [=](wxCommandEvent&) { updateTime();} );
+    m_timeInput->Bind(wxEVT_SPINCTRL, &MyFrame::OnInputParamsChange, this);
+    m_timeInput->Bind(wxEVT_TEXT, &MyFrame::OnInputParamsChange, this);
 
     m_timeOutput = new wxTextCtrl(this, ID_TimeOutput, "00' 00'' 000", wxPoint(0, 30), wxSize(100, 20), wxTE_RIGHT);
     m_timeOutput->SetEditable(false);
@@ -43,7 +43,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     }
     m_cb_timeUnit = new wxChoice(this, ID_CB_TimeUnit, wxPoint(110, 0), wxSize(100, 20), choices);
     m_cb_timeUnit->SetSelection(0);
-    m_cb_timeUnit->Bind(wxEVT_CHOICE, [=](wxCommandEvent&) { updateTime();} );
+    m_cb_timeUnit->Bind(wxEVT_CHOICE, &MyFrame::OnInputParamsChange, this);
 }
 
 
@@ -76,4 +76,9 @@ void MyFrame::updateTime()
     const auto ms = getInputTime();
     const std::string s = MinSecMs(ms).to_string();
     m_timeOutput->SetValue(s);
+}
+
+void MyFrame::OnInputParamsChange(wxCommandEvent& event)
+{
+    updateTime();
 }

@@ -30,4 +30,5 @@ private:
     std::vector<TimeUnit> m_units;
     milliseconds getInputTime();
     void updateTime();
+    void OnInputParamsChange(wxCommandEvent& event);
 };
