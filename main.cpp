@@ -31,6 +31,8 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     m_timeInput = new wxSpinCtrl(this, ID_TimeInput, "0", wxDefaultPosition, wxSize(100, 20));
     m_timeInput->SetMax(INT_MAX);
     m_timeInput->Bind(wxEVT_SPINCTRL, [=](wxCommandEvent&) { updateTime();} );
+    m_timeInput->Bind(wxEVT_TEXT, [=](wxCommandEvent&) { updateTime();} );
+
     m_timeOutput = new wxTextCtrl(this, ID_TimeOutput, "0' 00'' 000", wxPoint(0, 30), wxSize(100, 20));
     m_timeOutput->SetEditable(false);
 
