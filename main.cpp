@@ -18,6 +18,7 @@ bool MyApp::OnInit()
     wxImage::AddHandler(new wxPNGHandler());
     bin2c_init_RES_H();
     MyFrame *frame = new MyFrame("Time Conv", wxPoint(50, 50), wxSize(226, 89));
+    frame->SetWindowStyleFlag(wxDEFAULT_FRAME_STYLE & ~(wxRESIZE_BORDER | wxMAXIMIZE_BOX));
     frame->Show(true);
     return true;
 }
