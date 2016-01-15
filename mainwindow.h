@@ -18,6 +18,7 @@ class MyApp : public wxApp
 public:
     virtual bool OnInit();
 };
+
 class MyFrame : public wxFrame
 {
 public:
@@ -29,7 +30,4 @@ private:
     std::vector<TimeUnit> m_units;
     milliseconds getInputTime();
     void updateTime();
-    void OnInputChange(wxSpinEvent& event);
-    void OnTimeUnitChange(wxCommandEvent& event);
-    wxDECLARE_EVENT_TABLE();
 };

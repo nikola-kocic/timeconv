@@ -8,10 +8,6 @@ enum
     , ID_CB_TimeUnit
 };
 
-wxBEGIN_EVENT_TABLE(MyFrame, wxFrame)
-EVT_SPINCTRL(ID_TimeInput, MyFrame::OnInputChange)
-EVT_CHOICE(ID_CB_TimeUnit, MyFrame::OnTimeUnitChange)
-wxEND_EVENT_TABLE()
 wxIMPLEMENT_APP(MyApp);
 
 
@@ -28,11 +24,13 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
         TimeUnit::milliseconds
         , TimeUnit::centiseconds
         , TimeUnit::deciseconds
-        , TimeUnit::seconds})
+        , TimeUnit::seconds
+    })
 {
     this->SetBackgroundColour(wxNullColour);
     m_timeInput = new wxSpinCtrl(this, ID_TimeInput, "0", wxDefaultPosition, wxSize(100, 20));
     m_timeInput->SetMax(INT_MAX);
+    m_timeInput->Bind(wxEVT_SPINCTRL, [=](wxCommandEvent&) { updateTime();} );
     m_timeOutput = new wxTextCtrl(this, ID_TimeOutput, "0' 00'' 000", wxPoint(0, 30), wxSize(100, 20));
     m_timeOutput->SetEditable(false);
 
@@ -43,6 +41,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     }
     m_cb_timeUnit = new wxChoice(this, ID_CB_TimeUnit, wxPoint(110, 0), wxSize(100, 20), choices);
     m_cb_timeUnit->SetSelection(0);
+    m_cb_timeUnit->Bind(wxEVT_CHOICE, [=](wxCommandEvent&) { updateTime();} );
 }
 
 
@@ -75,14 +74,4 @@ void MyFrame::updateTime()
     const auto ms = getInputTime();
     const std::string s = MinSecMs(ms).to_string();
     m_timeOutput->SetValue(s);
-}
-
-void MyFrame::OnInputChange(wxSpinEvent& event)
-{
-    updateTime();
-}
-
-void MyFrame::OnTimeUnitChange(wxCommandEvent& event)
-{
-    updateTime();
 }
