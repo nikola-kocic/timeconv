@@ -3,6 +3,7 @@
 #include <chrono>
 #include <string>
 #include <sstream>
+#include <iomanip>
 
 using std::chrono::milliseconds;
 using std::chrono::seconds;
@@ -34,8 +35,12 @@ struct MinSecMs {
     }
     std::string to_string()
     {
+        using std::setw;
         std::stringstream ss;
-        ss << minute.count() << "'" << sec.count() << "''" << ms.count();
+        ss << std::setfill('0')
+            << setw(2) << minute.count() << "' "
+            << setw(2) << sec.count() << "'' "
+            << setw(3) << ms.count();
         return ss.str();
     }
 };

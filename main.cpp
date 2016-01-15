@@ -13,7 +13,7 @@ wxIMPLEMENT_APP(MyApp);
 
 bool MyApp::OnInit()
 {
-    MyFrame *frame = new MyFrame("Time Conv", wxPoint(50, 50), wxSize(230, 100));
+    MyFrame *frame = new MyFrame("Time Conv", wxPoint(50, 50), wxSize(226, 89));
     frame->Show(true);
     return true;
 }
@@ -33,7 +33,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     m_timeInput->Bind(wxEVT_SPINCTRL, [=](wxCommandEvent&) { updateTime();} );
     m_timeInput->Bind(wxEVT_TEXT, [=](wxCommandEvent&) { updateTime();} );
 
-    m_timeOutput = new wxTextCtrl(this, ID_TimeOutput, "0' 00'' 000", wxPoint(0, 30), wxSize(100, 20));
+    m_timeOutput = new wxTextCtrl(this, ID_TimeOutput, "00' 00'' 000", wxPoint(0, 30), wxSize(100, 20), wxTE_RIGHT);
     m_timeOutput->SetEditable(false);
 
     wxArrayString choices;
