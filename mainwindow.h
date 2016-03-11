@@ -34,4 +34,6 @@ private:
     void updateTime();
     void OnInputParamsChange(wxCommandEvent& event);
     void OnToggleOnTop(wxCommandEvent& event);
+    void OnInputParamsActivate(wxFocusEvent& event);
+    void OnInputParamsIdle(wxIdleEvent& event);
 };

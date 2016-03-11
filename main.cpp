@@ -37,6 +37,7 @@ MyFrame::MyFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
     m_timeInput->SetRange(0, INT_MAX);
     m_timeInput->Bind(wxEVT_SPINCTRL, &MyFrame::OnInputParamsChange, this);
     m_timeInput->Bind(wxEVT_TEXT, &MyFrame::OnInputParamsChange, this);
+    m_timeInput->Bind(wxEVT_SET_FOCUS, &MyFrame::OnInputParamsActivate, this);
 
     m_timeOutput = new wxTextCtrl(this, ID_TimeOutput, "00' 00'' 000", wxDefaultPosition, wxDefaultSize, wxTE_RIGHT);
     m_timeOutput->SetEditable(false);
@@ -97,6 +98,18 @@ void MyFrame::updateTime()
 void MyFrame::OnInputParamsChange(wxCommandEvent& event)
 {
     updateTime();
+}
+
+void MyFrame::OnInputParamsActivate(wxFocusEvent& event)
+{
+    event.Skip();
+    m_timeInput->Bind(wxEVT_IDLE, &MyFrame::OnInputParamsIdle, this);
+}
+
+void MyFrame::OnInputParamsIdle(wxIdleEvent& event)
+{
+    m_timeInput->Unbind(wxEVT_IDLE, &MyFrame::OnInputParamsIdle, this);
+    m_timeInput->SetSelection(-1, -1);
 }
 
 void MyFrame::OnToggleOnTop(wxCommandEvent& event)
